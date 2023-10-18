@@ -1,3 +1,5 @@
+/* eslint-disable prettier/prettier */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -6,18 +8,16 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+// import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import StackNavigator from './navigation/StackNavigator';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -33,9 +33,7 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
 
-      <View style={styles.ViewContainer}>
-        <Text style={styles.Text}>Hello</Text>
-      </View>
+      <StackNavigator />
     </SafeAreaView>
   );
 }
@@ -43,8 +41,6 @@ function App(): JSX.Element {
 const styles = StyleSheet.create({
   ViewContainer: {
     flex: 1,
-    borderWidth: 5,
-    borderColor: 'red',
   },
   Text: {
     color: 'black',
