@@ -74,7 +74,7 @@ const RegisterScreen = () => {
         </View>
         <View style={{marginTop: 50}} />
         <Pressable style={styles.LoginButton}>
-          <Text style={styles.LoginButtonText}>Login</Text>
+          <Text style={styles.LoginButtonText}>Register</Text>
         </Pressable>
         <Pressable
           onPress={() => navigation.navigate('LoginScreen')}
