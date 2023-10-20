@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {
   Image,
   StyleSheet,
@@ -7,15 +8,49 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {BASE_URL} from '../constants';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
+
+  const handleLogin = async () => {
+    const user = {email, password};
+    console.log('sending user credentials for login', email, password);
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/login`, user);
+      console.log('login response', res);
+      const token = res.data.token;
+      AsyncStorage.setItem('authToken', token);
+      navigation.replace('MainScreen');
+    } catch (error) {
+      console.log('frontend login err response', error);
+      Alert.alert('Login error', 'Can not login');
+    }
+  };
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage('authToken');
+        if (token) {
+          navigation.replace('Main');
+        }
+      } catch (error) {
+        console.log('failed to check login status', error);
+      }
+    };
+    checkLoginStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <View style={styles.MainContainer}>
@@ -63,7 +98,7 @@ const LoginScreen = () => {
           </Text>
         </View>
         <View style={{marginTop: 50}} />
-        <Pressable style={styles.LoginButton}>
+        <Pressable onPress={handleLogin} style={styles.LoginButton}>
           <Text style={styles.LoginButtonText}>Login</Text>
         </Pressable>
         <Pressable

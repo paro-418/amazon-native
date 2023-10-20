@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-native/no-inline-styles */
 import {
   Image,
   StyleSheet,
@@ -7,9 +8,12 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {BASE_URL} from '../constants';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -17,6 +21,35 @@ const RegisterScreen = () => {
   const [name, setName] = useState('');
 
   const navigation = useNavigation();
+
+  const handleRegister = async () => {
+    const user = {
+      name,
+      email,
+      password,
+    };
+    console.log('front end', user);
+
+    // send a post request to backend
+    // 192.168.43.208:8000, 10.0.2.2:8000 me emulator se ho rha
+    // android me koi se v nhi ho rha
+    try {
+      const res = await axios.post(`${BASE_URL}/auth/register`, user);
+      console.log('registering response', res);
+      Alert.alert(
+        'Registration successful',
+        'You have registered successfully',
+      );
+
+      setName('');
+      setPassword('');
+      setEmail('');
+      navigation.replace('MainScreen');
+    } catch (error) {
+      console.log('unsuccessful ', error);
+      Alert.alert('Registration error', 'You have not registered. Try later');
+    }
+  };
   return (
     <View style={styles.MainContainer}>
       <Image
@@ -73,7 +106,7 @@ const RegisterScreen = () => {
           </Text>
         </View>
         <View style={{marginTop: 50}} />
-        <Pressable style={styles.LoginButton}>
+        <Pressable onPress={handleRegister} style={styles.LoginButton}>
           <Text style={styles.LoginButtonText}>Register</Text>
         </Pressable>
         <Pressable

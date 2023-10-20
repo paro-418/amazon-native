@@ -15,9 +15,11 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
-
+import {ModalPortal} from 'react-native-modals';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigation/StackNavigator';
+import {Provider} from 'react-redux';
+import store from './redux/store';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -32,8 +34,10 @@ function App(): JSX.Element {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-
-      <StackNavigator />
+      <Provider store={store}>
+        <StackNavigator />
+        <ModalPortal />
+      </Provider>
     </SafeAreaView>
   );
 }
