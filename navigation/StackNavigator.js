@@ -14,13 +14,17 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProductInfoScreen from '../screen/ProductInfoScreen';
 import AddAddressScreen from '../screen/AddAddressScreen';
 import AddressScreen from '../screen/AddressScreen';
+import CartScreen from '../screen/CartScreen';
+import ProfileScreen from '../screen/ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
 
 function BottomTabs() {
   return (
-    <Tabs.Navigator screenOptions={{headerShown: false}}>
+    <Tabs.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="CartTab">
       <Tabs.Screen
         name="HomeTab"
         component={HomeScreen}
@@ -37,7 +41,7 @@ function BottomTabs() {
       />
       <Tabs.Screen
         name="ProfileTab"
-        component={HomeScreen}
+        component={ProfileScreen}
         options={{
           tabBarLabel: 'Profile',
           tabBarLabelStyle: {color: '#008e97'},
@@ -51,7 +55,7 @@ function BottomTabs() {
       />
       <Tabs.Screen
         name="CartTab"
-        component={HomeScreen}
+        component={CartScreen}
         options={{
           tabBarLabel: 'Cart',
           tabBarLabelStyle: {color: '#008e97'},

@@ -16,6 +16,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {useRoute} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToCart} from '../redux/CartReducer';
+import Header from '../components/Header';
 
 const ProductInfoScreen = () => {
   const dispatch = useDispatch();
@@ -36,24 +37,7 @@ const ProductInfoScreen = () => {
     <ScrollView
       style={{flex: 1, backgroundColor: '#fff'}}
       showsVerticalScrollIndicator={false}>
-      <View
-        style={{
-          backgroundColor: '#00ced1',
-          padding: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Pressable style={styles.SearchBar}>
-          <MaterialIcons
-            style={{paddingLeft: 6}}
-            name="search"
-            size={26}
-            color="#008e97"
-          />
-          <TextInput placeholder="Search Amazon.in" />
-        </Pressable>
-        <MaterialCommunityIcons name="microphone" size={30} color="black" />
-      </View>
+      <Header />
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {route.params.carouselImages.map((item, index) => (
           <ImageBackground
@@ -210,15 +194,4 @@ const ProductInfoScreen = () => {
 
 export default ProductInfoScreen;
 
-const styles = StyleSheet.create({
-  SearchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 7,
-    gap: 10,
-    backgroundColor: 'white',
-    borderRadius: 3,
-    height: 38,
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});

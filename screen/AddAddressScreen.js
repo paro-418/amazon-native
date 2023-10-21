@@ -15,6 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
 import {UserType} from '../context/UserContext';
+import Header from '../components/Header';
 
 const AddAddressScreen = () => {
   const navigation = useNavigation();
@@ -37,24 +38,7 @@ const AddAddressScreen = () => {
   console.log('userId', userId);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{}}>
-      <View
-        style={{
-          backgroundColor: '#00ced1',
-          padding: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Pressable style={styles.SearchBar}>
-          <MaterialIcons
-            style={{paddingLeft: 6}}
-            name="search"
-            size={26}
-            color="#008e97"
-          />
-          <TextInput placeholder="Search Amazon.in" />
-        </Pressable>
-        <MaterialCommunityIcons name="microphone" size={30} color="black" />
-      </View>
+      <Header />
       <View style={{padding: 10}}>
         <Text style={{fontWeight: 'bold', fontSize: 20}}>Your Addresses</Text>
         <Pressable
@@ -151,15 +135,4 @@ const AddAddressScreen = () => {
 
 export default AddAddressScreen;
 
-const styles = StyleSheet.create({
-  SearchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 7,
-    gap: 10,
-    backgroundColor: 'white',
-    borderRadius: 3,
-    height: 38,
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});

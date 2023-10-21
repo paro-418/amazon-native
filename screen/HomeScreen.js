@@ -26,6 +26,7 @@ import jwt_decode from 'jwt-decode';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserType} from '../context/UserContext';
 import {BASE_URL} from '../constants';
+import Header from '../components/Header';
 
 const list = [
   {
@@ -250,6 +251,7 @@ const HomeScreen = () => {
   }, []);
 
   const cart = useSelector(state => state.cart.cart);
+  // console.log('home screen cart', cart);
 
   const onGenderOpen = useCallback(() => {}, []);
   // console.log('hom');
@@ -257,25 +259,7 @@ const HomeScreen = () => {
     <>
       <SafeAreaView style={styles.Container}>
         <ScrollView>
-          <View
-            style={{
-              backgroundColor: '#00ced1',
-              padding: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}>
-            <Pressable style={styles.SearchBar}>
-              <MaterialIcons
-                style={{paddingLeft: 6}}
-                name="search"
-                size={26}
-                color="#008e97"
-              />
-              <TextInput placeholder="Search Amazon.in" />
-            </Pressable>
-            <MaterialCommunityIcons name="microphone" size={30} color="black" />
-          </View>
-
+          <Header />
           <Pressable
             onPress={() => setModalVisible(!modalVisible)}
             style={{
@@ -579,15 +563,5 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   Container: {
     backgroundColor: 'white',
-  },
-  SearchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginHorizontal: 7,
-    gap: 10,
-    backgroundColor: 'white',
-    borderRadius: 3,
-    height: 38,
-    flex: 1,
   },
 });
