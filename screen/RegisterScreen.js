@@ -14,6 +14,7 @@ import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +32,7 @@ const RegisterScreen = () => {
     console.log('front end', user);
 
     // send a post request to backend
-    // 192.168.43.208:8000, 10.0.2.2:8000 me emulator se ho rha
+    // 192.168.43.xxx:8000, 10.0.2.2:8000 me emulator se ho rha
     // android me koi se v nhi ho rha
     try {
       const res = await axios.post(`${BASE_URL}/auth/register`, user);
@@ -40,6 +41,9 @@ const RegisterScreen = () => {
         'Registration successful',
         'You have registered successfully',
       );
+      const token = res.data.token;
+      AsyncStorage.setItem('authToken', token);
+      navigation.replace('MainScreen');
 
       setName('');
       setPassword('');

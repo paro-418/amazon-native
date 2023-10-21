@@ -13,6 +13,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import ProductInfoScreen from '../screen/ProductInfoScreen';
 import AddAddressScreen from '../screen/AddAddressScreen';
+import AddressScreen from '../screen/AddressScreen';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -77,6 +78,7 @@ const StackNavigator = () => {
         <Stack.Screen name="MainScreen" component={BottomTabs} />
         <Stack.Screen name="ProductInfoScreen" component={ProductInfoScreen} />
         <Stack.Screen name="AddAddressScreen" component={AddAddressScreen} />
+        <Stack.Screen name="AddressScreen" component={AddressScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

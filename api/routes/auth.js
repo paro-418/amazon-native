@@ -71,8 +71,10 @@ router.post('/register', async (req, res) => {
     // send verification email to user
 
     await sendVerificationEmail(newUser.email, newUser.verificationToken);
+    const token = jwt.sign({userId: newUser._id}, secretKey);
     return res.status(200).json({
       message: 'registration successful',
+      token,
     });
   } catch (error) {
     console.log('error registering user', error);

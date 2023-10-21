@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,8 +11,6 @@ import {
   Pressable,
   TextInput,
   Image,
-  Modal,
-  Dimensions,
 } from 'react-native';
 import {BottomModal, SlideAnimation, ModalContent} from 'react-native-modals';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -23,6 +22,10 @@ import ProductItem from '../components/ProductItem';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import jwt_decode from 'jwt-decode';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {UserType} from '../context/UserContext';
+import {BASE_URL} from '../constants';
 
 const list = [
   {
@@ -204,7 +207,35 @@ const HomeScreen = () => {
     {label: 'electronics', value: 'electronics'},
     {label: "women's clothing", value: "women's clothing"},
   ]);
+  const {userId, setUserId} = useContext(UserType);
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddresses, setSelectedAddresses] = useState('');
   const navigation = useNavigation();
+
+  const fetchAddresses = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/addresses/${userId}`);
+      const {addresses} = res.data;
+      setAddresses(addresses);
+    } catch (error) {
+      console.log('failed to fetch addresses frontend', error);
+    }
+  };
+  useEffect(() => {
+    if (userId) fetchAddresses();
+  }, [userId, modalVisible]);
+
+  console.log('selected address', selectedAddresses);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      const decodedToken = jwt_decode(token);
+      const userId = decodedToken.userId;
+      setUserId(userId);
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -221,6 +252,7 @@ const HomeScreen = () => {
   const cart = useSelector(state => state.cart.cart);
 
   const onGenderOpen = useCallback(() => {}, []);
+  // console.log('hom');
   return (
     <>
       <SafeAreaView style={styles.Container}>
@@ -255,9 +287,14 @@ const HomeScreen = () => {
             }}>
             <MaterialIcons name="location-on" size={30} color="black" />
             <Pressable onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={{fontSize: 13, fontWeight: 500}}>
-                Deliver to Praveen - Giridih 815301
-              </Text>
+              {selectedAddresses ? (
+                <Text>
+                  Deliver to : {selectedAddresses?.name} -
+                  {selectedAddresses?.street}, {selectedAddresses?.city}
+                </Text>
+              ) : (
+                <Text style={{fontWeight: 'bold'}}>Add an Address</Text>
+              )}
             </Pressable>
             <MaterialIcons name="keyboard-arrow-down" size={30} color="black" />
           </Pressable>
@@ -446,6 +483,40 @@ const HomeScreen = () => {
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {/* already added address */}
+            {addresses?.map((item, index) => (
+              <Pressable
+                key={index}
+                onPress={() => setSelectedAddresses(item)}
+                style={{
+                  width: 140,
+                  height: 140,
+                  borderColor: '#d0d0d0',
+                  marginTop: 10,
+                  borderWidth: 1,
+                  padding: 10,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: 3,
+                  marginRight: 15,
+                  backgroundColor:
+                    selectedAddresses === item ? '#fbceb1' : '#fff',
+                }}>
+                <View
+                  style={{flexDirection: 'row', alignItems: 'center', gap: 3}}>
+                  <Text>{item?.name}</Text>
+                  <MaterialIcons name="location-on" size={15} color="red" />
+                </View>
+                <Text style={{fontSize: 15, color: '#181818'}}>
+                  {item?.houseNo}, {item?.landmark}
+                </Text>
+                <Text style={{fontSize: 15, color: '#181818'}}>
+                  {item?.street}, {item?.city}, India - {item?.postalCode}
+                </Text>
+                <Text style={{fontSize: 15, color: '#181818'}}>
+                  {item?.mobileNo}
+                </Text>
+              </Pressable>
+            ))}
             <Pressable
               style={{
                 width: 140,

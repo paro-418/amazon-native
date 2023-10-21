@@ -9,23 +9,22 @@ require('dotenv').config();
 app.use(cors());
 
 const authRoutes = require('./routes/auth');
+const addressesRoutes = require('./routes/address');
 const PORT = 8000;
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    },
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('connected to mongodb');
   })
   .catch(err => console.log('error connecting mongo db', err));
 
 app.use('/auth', authRoutes);
+app.use('/addresses', addressesRoutes);
 app.listen(PORT, () => console.log('server is running on', PORT));

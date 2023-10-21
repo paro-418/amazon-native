@@ -20,6 +20,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import StackNavigator from './navigation/StackNavigator';
 import {Provider} from 'react-redux';
 import store from './redux/store';
+import {UserContext} from './context/UserContext';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -35,8 +36,10 @@ function App(): JSX.Element {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Provider store={store}>
-        <StackNavigator />
-        <ModalPortal />
+        <UserContext>
+          <StackNavigator />
+          <ModalPortal />
+        </UserContext>
       </Provider>
     </SafeAreaView>
   );
