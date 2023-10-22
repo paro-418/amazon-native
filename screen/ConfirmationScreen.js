@@ -92,7 +92,7 @@ const ConfirmationScreen = () => {
       const res = await axios.post(`${BASE_URL}/order`, orderData);
       // console.log('response order', res);
       if (res.status === 200) {
-        navigation.navigate('OrderScreen');
+        navigation.navigate('ProfileTab');
         dispatch(clearCart());
       }
     } catch (error) {
@@ -128,7 +128,7 @@ const ConfirmationScreen = () => {
       const res = await axios.post(`${BASE_URL}/order`, orderData);
       // console.log('response order', res);
       if (res.status === 200) {
-        navigation.navigate('ProfileScreen');
+        navigation.navigate('ProfileTab');
         dispatch(clearCart());
       }
     } catch (error) {

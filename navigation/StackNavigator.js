@@ -44,6 +44,7 @@ function BottomTabs() {
         name="ProfileTab"
         component={ProfileScreen}
         options={{
+          headerShown: true,
           tabBarLabel: 'Profile',
           tabBarLabelStyle: {color: '#008e97'},
           tabBarIcon: ({focused}) =>
@@ -76,7 +77,7 @@ const StackNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="MainScreen"
+        initialRouteName="LoginScreen"
         screenOptions={{headerShown: false}}>
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -84,7 +85,6 @@ const StackNavigator = () => {
         <Stack.Screen name="ProductInfoScreen" component={ProductInfoScreen} />
         <Stack.Screen name="AddAddressScreen" component={AddAddressScreen} />
         <Stack.Screen name="AddressScreen" component={AddressScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen
           name="ConfirmationScreen"
           component={ConfirmationScreen}

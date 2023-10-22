@@ -15,9 +15,12 @@ import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BASE_URL} from '../constants';
+import SplashScreen from './SplashScreen';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
+
+  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
@@ -42,7 +45,7 @@ const LoginScreen = () => {
       try {
         const token = await AsyncStorage('authToken');
         if (token) {
-          navigation.replace('Main');
+          navigation.replace('MainScreen');
         }
       } catch (error) {
         console.log('failed to check login status', error);
@@ -51,6 +54,10 @@ const LoginScreen = () => {
     checkLoginStatus();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if(loading){
+return <SplashScreen/>
+  }
 
   return (
     <View style={styles.MainContainer}>

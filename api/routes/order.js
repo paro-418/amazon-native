@@ -34,7 +34,7 @@ router.post('/', async function (req, res) {
       price: item?.price,
       image: item?.image,
     }));
-    console.log('products', products);
+    // console.log('products', products);
 
     // create a new order
     const newOrder = await Order.create({
@@ -44,7 +44,7 @@ router.post('/', async function (req, res) {
       paymentMethod,
       totalPrice,
     });
-    console.log('new Order', newOrder);
+    // console.log('new Order', newOrder);
     await newOrder.save();
     await User.updateOne(
       {_id: user._id},
@@ -66,7 +66,8 @@ router.post('/', async function (req, res) {
 
 router.get('/:userId', async function (req, res) {
   try {
-    const {userId} = req.body;
+    const {userId} = req.params;
+    console.log('get order userid', userId);
 
     const orders = await Order.find({user: userId}).populate('user');
 
