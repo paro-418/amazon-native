@@ -18,9 +18,11 @@ import {
   incrementQuantity,
   removeFromCart,
 } from '../redux/CartReducer';
+import {useNavigation} from '@react-navigation/native';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const cart = useSelector(state => state.cart.cart);
   const total = cart
     ?.map(item => item.price * item.quantity)
@@ -46,6 +48,7 @@ const CartScreen = () => {
       </View>
       <Text style={{marginHorizontal: 10}}>EMI details Available</Text>
       <Pressable
+        onPress={() => navigation.navigate('ConfirmationScreen')}
         style={{
           backgroundColor: '#ffc72c',
           padding: 10,
@@ -55,7 +58,7 @@ const CartScreen = () => {
           marginHorizontal: 10,
           marginTop: 10,
         }}>
-        <Text>Proceed to Buy {cart?.length} items</Text>
+        <Text>Proceed to Buy ({cart?.length}) items</Text>
       </Pressable>
       <Text
         style={{

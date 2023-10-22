@@ -16,6 +16,7 @@ import AddAddressScreen from '../screen/AddAddressScreen';
 import AddressScreen from '../screen/AddressScreen';
 import CartScreen from '../screen/CartScreen';
 import ProfileScreen from '../screen/ProfileScreen';
+import ConfirmationScreen from '../screen/ConfirmationScreen';
 
 const Stack = createNativeStackNavigator();
 const Tabs = createBottomTabNavigator();
@@ -83,6 +84,11 @@ const StackNavigator = () => {
         <Stack.Screen name="ProductInfoScreen" component={ProductInfoScreen} />
         <Stack.Screen name="AddAddressScreen" component={AddAddressScreen} />
         <Stack.Screen name="AddressScreen" component={AddressScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen
+          name="ConfirmationScreen"
+          component={ConfirmationScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

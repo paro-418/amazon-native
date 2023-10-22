@@ -8,10 +8,9 @@ import {
   View,
   Pressable,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../constants';
 import {UserType} from '../context/UserContext';
@@ -22,20 +21,29 @@ const AddAddressScreen = () => {
   const {userId, setUserId} = useContext(UserType);
   const [addresses, setAddresses] = useState([]);
 
+  const fetchAddresses = async () => {
+    try {
+      const res = await axios.get(`${BASE_URL}/addresses/${userId}`);
+      const {addresses} = res.data;
+      // console.log('allAddresses', allAddresses);
+      setAddresses(addresses);
+    } catch (error) {
+      console.log('failed to fetch addresses frontend', error);
+    }
+  };
   useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/addresses/${userId}`);
-        const {addresses} = res.data;
-        // console.log('allAddresses', allAddresses);
-        setAddresses(addresses);
-      } catch (error) {
-        console.log('failed to fetch addresses frontend', error);
-      }
-    };
     fetchAddresses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
-  console.log('userId', userId);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchAddresses();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
+
+  // console.log('userId', userId);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{}}>
       <Header />

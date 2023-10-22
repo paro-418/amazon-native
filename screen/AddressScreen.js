@@ -28,15 +28,16 @@ const AddressScreen = () => {
   const {userId, setUserId} = useContext(UserType);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = await AsyncStorage.getItem('authToken');
-      const decodedToken = jwt_decode(token);
-      const userId = decodedToken.userId;
-      setUserId(userId);
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const token = await AsyncStorage.getItem('authToken');
+  //     const decodedToken = jwt_decode(token);
+  //     const userId = decodedToken.userId;
+  //     setUserId(userId);
+  //   };
+  //   fetchUser();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   const handleAddAddress = async () => {
     const address = {
       houseNo,

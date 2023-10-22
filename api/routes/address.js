@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
-const User = require('../models/user');
-const mongoose = require('mongoose');
-
 const router = express.Router();
+const User = require('../models/user');
+
 
 // end point to save address
 router.post('/', async function (req, res) {
